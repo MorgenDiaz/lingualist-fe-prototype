@@ -41,7 +41,8 @@ export default function WordContextSentenceChallenge(
     if (!submittedWord) return;
 
     const isCorrectWord =
-      wordContextSentence.word.toLowerCase() === submittedWord.toLowerCase();
+      wordContextSentence.word.trim().toLowerCase() ===
+      submittedWord.trim().toLowerCase();
 
     if (!isCorrectWord) {
       setIsIncorrectWord(true);
@@ -50,6 +51,12 @@ export default function WordContextSentenceChallenge(
         wordContextSentence.word,
         wordContextSentence.definition
       );
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleUserSubmission();
     }
   };
 
@@ -85,6 +92,7 @@ export default function WordContextSentenceChallenge(
             onChange={(event) => {
               setSubmittedWord(event.target.value);
             }}
+            onKeyDown={handleKeyDown}
           />
         </div>
         <button
