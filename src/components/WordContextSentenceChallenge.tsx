@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-
 import WordContextSentenceRoute from "../services/WordContextSentenceRoute";
-import VocabularyWordRoute from "../services/VocabularyWordRoute";
-import WordContextSentenceDTO from "../dto/WordContextSentenceDTO";
+import WordContextSentenceDTO from "../dto/WordContextSentenceChallengeDTO";
 
 interface WordContextSentenceChallengeProps {
   onCorrectWordSubmission: (word: string, definition: string) => void;
@@ -13,19 +11,12 @@ export default function WordContextSentenceChallenge(
 ) {
   const [isIncorrectWord, setIsIncorrectWord] = useState(false);
   const [submittedWord, setSubmittedWord] = useState<string>("");
-  const [vocabularyList, setVocabularyList] = useState<string[]>([]);
   const [wordContextSentence, setwordContextSentence] = useState<
     WordContextSentenceDTO | undefined
   >();
 
   useEffect(() => {
-    const vocabularyWordRoute = new VocabularyWordRoute();
     const wordContextSentenceRoute = new WordContextSentenceRoute();
-
-    const getVocabularyWords = async () => {
-      const wordList = await vocabularyWordRoute.fetchVocabularyWords();
-      setVocabularyList(wordList);
-    };
 
     const getSentence = async () => {
       const sentence =
@@ -33,7 +24,6 @@ export default function WordContextSentenceChallenge(
       setwordContextSentence(sentence);
     };
 
-    getVocabularyWords();
     getSentence();
   }, []);
 
@@ -65,7 +55,7 @@ export default function WordContextSentenceChallenge(
       <div className="flex flex-col items-center mb-20">
         <p className="mb-1 font-bold ">Vocabulary Words</p>
         <ul className="list-disc">
-          {vocabularyList.map((word) => (
+          {wordContextSentence?.words.map((word) => (
             <li key={word}>{word}</li>
           ))}
         </ul>

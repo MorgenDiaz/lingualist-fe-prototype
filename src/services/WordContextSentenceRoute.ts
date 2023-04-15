@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import LinguaListAxiosInstance from "./LinguaListAxiosInstance";
-import WordContextSentenceDTO from "../dto/WordContextSentenceDTO";
+import WordContextSentenceDTO from "../dto/WordContextSentenceChallengeDTO";
 
 export default class WordContextSentenceRoute {
   linguaListAxiosInstance: AxiosInstance = LinguaListAxiosInstance.create();
