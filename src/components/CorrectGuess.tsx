@@ -4,6 +4,7 @@ import hearIcon from "./hear-svgrepo-com.svg";
 interface CorrectGuessProps {
   word: string;
   definition: string;
+  didUserGuessWord: boolean;
   onPlayAgain: () => void;
 }
 
@@ -21,7 +22,9 @@ export default function CorrectGuess(props: CorrectGuessProps): JSX.Element {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen ">
-      <h1 className="mb-4 text-3xl font-bold">You Guessed Correctly!</h1>
+      {props.didUserGuessWord && (
+        <h1 className="mb-4 text-3xl font-bold">You Guessed Correctly!</h1>
+      )}
       <p className="mb-8 text-xl font-medium">{props.definition}</p>
 
       <div

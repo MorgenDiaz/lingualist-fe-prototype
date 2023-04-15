@@ -4,6 +4,7 @@ import WordContextSentenceDTO from "../dto/WordContextSentenceChallengeDTO";
 
 interface WordContextSentenceChallengeProps {
   onCorrectWordSubmission: (word: string, definition: string) => void;
+  onUserGaveUp: (word: string, definition: string) => void;
 }
 
 export default function WordContextSentenceChallenge(
@@ -42,6 +43,13 @@ export default function WordContextSentenceChallenge(
         wordContextSentence.definition
       );
     }
+  };
+
+  const handleUserGaveUp = () => {
+    props.onUserGaveUp(
+      wordContextSentence.word,
+      wordContextSentence.definition
+    );
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -86,10 +94,19 @@ export default function WordContextSentenceChallenge(
           />
         </div>
         <button
-          className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+          className="px-4 py-2 mb-6 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
           onClick={handleUserSubmission}
+          disabled={!wordContextSentence}
         >
           Submit
+        </button>
+
+        <button
+          onClick={handleUserGaveUp}
+          className="font-semibold text-orange-600 cursor-pointer"
+          disabled={!wordContextSentence}
+        >
+          I'm stuck
         </button>
       </div>
     </div>
