@@ -59,17 +59,17 @@ export default function WordContextSentenceChallenge(
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center h-screen px-8 bg-fuchsia-200">
       <div className="flex flex-col items-center mb-20">
-        <p className="mb-1 font-bold ">Vocabulary Words</p>
-        <ul className="list-disc">
+        <p className="mb-1 font-bold text-violet-900">Vocabulary Words</p>
+        <ul className="text-lg text-violet-900">
           {wordContextSentence?.words.map((word) => (
             <li key={word}>{word}</li>
           ))}
         </ul>
       </div>
       <div className="flex flex-col items-center">
-        <p className="mb-4 text-lg font-bold">
+        <p className="mb-4 text-lg font-bold text-violet-900">
           {wordContextSentence
             ? wordContextSentence.sentence
             : "Generating sentence..."}
@@ -83,7 +83,7 @@ export default function WordContextSentenceChallenge(
           )}
 
           <input
-            className="w-full max-w-lg p-2 mb-4 border-2 border-gray-400 rounded-lg"
+            className="w-full max-w-lg p-2 mb-4 text-center border-2 border-blue-300 rounded-lg focus:outline-green-300 text-violet-900 "
             type="text"
             placeholder="Vocabulary Word"
             value={submittedWord}
@@ -94,7 +94,7 @@ export default function WordContextSentenceChallenge(
           />
         </div>
         <button
-          className="px-4 py-2 mb-6 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
+          className="px-4 py-2 mb-6 font-bold text-white bg-indigo-600 rounded hover:bg-blue-700"
           onClick={handleUserSubmission}
           disabled={!wordContextSentence}
         >
@@ -103,7 +103,7 @@ export default function WordContextSentenceChallenge(
 
         <button
           onClick={handleUserGaveUp}
-          className="font-semibold text-orange-600 cursor-pointer"
+          className="font-semibold text-purple-900 cursor-pointer"
           disabled={!wordContextSentence}
         >
           I'm stuck
