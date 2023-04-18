@@ -59,8 +59,8 @@ export default function WordContextSentenceChallenge(
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen px-8 bg-fuchsia-200">
-      <div className="flex flex-col items-center mb-20">
+    <div className="flex flex-col items-center justify-center h-screen px-8 bg-fuchsia-200 gap-y-4">
+      <div className="flex flex-col items-center mb-16">
         <p className="mb-1 font-bold text-violet-900">Vocabulary Words</p>
         <ul className="text-lg text-violet-900">
           {wordContextSentence?.words.map((word) => (
@@ -68,8 +68,8 @@ export default function WordContextSentenceChallenge(
           ))}
         </ul>
       </div>
-      <div className="flex flex-col items-center">
-        <p className="mb-4 text-lg font-bold text-violet-900">
+      <div className="flex flex-col items-center gap-y-4">
+        <p className="text-lg font-bold text-violet-900">
           {wordContextSentence
             ? wordContextSentence.sentence
             : "Generating sentence..."}
@@ -83,7 +83,7 @@ export default function WordContextSentenceChallenge(
           )}
 
           <input
-            className="w-full max-w-lg p-2 mb-4 text-center border-2 border-blue-300 rounded-lg focus:outline-green-300 text-violet-900 "
+            className="w-full max-w-lg p-2 mb-4 text-center border-2 rounded-lg bg-fuchsia-50 border-violet-900 focus:outline-sky-200 text-violet-900 "
             type="text"
             placeholder="Vocabulary Word"
             value={submittedWord}
@@ -94,7 +94,7 @@ export default function WordContextSentenceChallenge(
           />
         </div>
         <button
-          className="px-4 py-2 mb-6 font-bold text-white bg-indigo-600 rounded hover:bg-blue-700"
+          className="px-4 py-2 font-bold rounded text-fuchsia-100 bg-sky-900 hover:bg-sky-800"
           onClick={handleUserSubmission}
           disabled={!wordContextSentence}
         >
