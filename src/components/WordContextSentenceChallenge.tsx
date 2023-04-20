@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from "react";
 import WordContextSentenceRoute from "../services/WordContextSentenceRoute";
 import WordContextSentenceDTO from "../dto/WordContextSentenceChallengeDTO";
+import FillTheBlankSentence from "./FillTheBlankSentence";
 
 interface WordContextSentenceChallengeProps {
   onCorrectWordSubmission: (word: string, definition: string) => void;
   onUserGaveUp: (word: string, definition: string) => void;
 }
 
-export default function WordContextSentenceChallenge(
-  props: WordContextSentenceChallengeProps
-) {
-  const [isIncorrectWord, setIsIncorrectWord] = useState(false);
+export default function WordContextSentenceChallenge({
+  onCorrectWordSubmission,
+  onUserGaveUp,
+}: WordContextSentenceChallengeProps) {
+  const [shouldShowErrorMessage, setShouldShowErrorMessage] = useState(false);
   const [submittedWord, setSubmittedWord] = useState<string>("");
+  const [didPlayerGuessCorrectWord, setDidPlayerGuessCorrectWord] =
+    useState(false);
   const [wordContextSentence, setwordContextSentence] = useState<
     WordContextSentenceDTO | undefined
   >();
@@ -36,20 +40,22 @@ export default function WordContextSentenceChallenge(
       submittedWord.trim().toLowerCase();
 
     if (!isCorrectWord) {
-      setIsIncorrectWord(true);
+      setShouldShowErrorMessage(true);
     } else {
-      props.onCorrectWordSubmission(
-        wordContextSentence.word,
-        wordContextSentence.definition
-      );
+      setShouldShowErrorMessage(false);
+      setDidPlayerGuessCorrectWord(true);
     }
   };
 
-  const handleUserGaveUp = () => {
-    props.onUserGaveUp(
+  const handleVocabularyWordRevealed = () => {
+    onCorrectWordSubmission(
       wordContextSentence.word,
       wordContextSentence.definition
     );
+  };
+
+  const handleUserGaveUp = () => {
+    onUserGaveUp(wordContextSentence.word, wordContextSentence.definition);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -69,14 +75,22 @@ export default function WordContextSentenceChallenge(
         </ul>
       </div>
       <div className="flex flex-col items-center gap-y-4">
-        <p className="text-lg font-bold text-violet-900">
-          {wordContextSentence
-            ? wordContextSentence.sentence
-            : "Generating sentence..."}
-        </p>
+        {wordContextSentence ? (
+          <FillTheBlankSentence
+            sentence={wordContextSentence.sentence}
+            word={wordContextSentence.word}
+            isRevealTriggered={didPlayerGuessCorrectWord}
+            characterRevealDurationMilliseconds={400}
+            onRevealed={handleVocabularyWordRevealed}
+          />
+        ) : (
+          <p className="text-lg font-bold text-violet-900">
+            Generating sentence...
+          </p>
+        )}
 
         <div className="">
-          {isIncorrectWord && (
+          {shouldShowErrorMessage && (
             <p className="text-sm font-bold text-red-500">
               The word you provided doesn't quite fit the sentence. Try again!
             </p>
