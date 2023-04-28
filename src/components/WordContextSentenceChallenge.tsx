@@ -65,7 +65,7 @@ export default function WordContextSentenceChallenge({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen px-8 bg-fuchsia-200 gap-y-4">
+    <div className="flex flex-col items-center justify-center h-screen px-8 bg-fuchsia-100 gap-y-4">
       <div className="flex flex-col items-center mb-16">
         <p className="mb-1 font-bold text-violet-900">Vocabulary Words</p>
         <ul className="text-lg text-violet-900">
@@ -97,7 +97,7 @@ export default function WordContextSentenceChallenge({
           )}
 
           <input
-            className="w-full max-w-lg p-2 mb-4 text-center border-2 rounded-lg bg-fuchsia-50 border-violet-900 focus:outline-sky-200 text-violet-900 "
+            className="w-full max-w-lg p-2 mb-4 text-center border-2 rounded-lg bg-fuchsia-50 border-rose-300 focus:outline-rose-400 text-violet-900 "
             type="text"
             placeholder="Vocabulary Word"
             value={submittedWord}
@@ -108,7 +108,7 @@ export default function WordContextSentenceChallenge({
           />
         </div>
         <button
-          className="px-4 py-2 font-bold rounded text-fuchsia-100 bg-sky-900 hover:bg-sky-800"
+          className="px-4 py-2 font-bold rounded text-fuchsia-50 bg-sky-700 hover:bg-sky-500"
           onClick={handleUserSubmission}
           disabled={!wordContextSentence}
         >
@@ -117,7 +117,7 @@ export default function WordContextSentenceChallenge({
 
         <button
           onClick={handleUserGaveUp}
-          className="font-semibold text-purple-900 cursor-pointer"
+          className="font-semibold cursor-pointer text-rose-900"
           disabled={!wordContextSentence}
         >
           I'm stuck
