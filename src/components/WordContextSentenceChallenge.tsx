@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import FuzzySet from "fuzzyset";
 import WordContextSentenceRoute from "../services/WordContextSentenceRoute";
 import WordContextSentenceDTO from "../dto/WordContextSentenceChallengeDTO";
 import FillTheBlankSentence from "./FillTheBlankSentence";
@@ -12,7 +13,9 @@ export default function WordContextSentenceChallenge({
   onCorrectWordSubmission,
   onUserGaveUp,
 }: WordContextSentenceChallengeProps) {
+  const [fuzzySet, setFuzzySet] = useState(FuzzySet());
   const [shouldShowErrorMessage, setShouldShowErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [submittedWord, setSubmittedWord] = useState<string>("");
   const [didPlayerGuessCorrectWord, setDidPlayerGuessCorrectWord] =
     useState(false);
@@ -32,6 +35,12 @@ export default function WordContextSentenceChallenge({
     getSentence();
   }, []);
 
+  useEffect(() => {
+    if (!wordContextSentence) return;
+    const wordSet = FuzzySet(wordContextSentence.words);
+    setFuzzySet(wordSet);
+  }, [wordContextSentence]);
+
   const handleUserSubmission = (): void => {
     if (!submittedWord) return;
 
@@ -40,6 +49,30 @@ export default function WordContextSentenceChallenge({
       submittedWord.trim().toLowerCase();
 
     if (!isCorrectWord) {
+      const fuzzyScores = fuzzySet
+        .get(submittedWord)
+        ?.sort((a, b) => b[0] - a[0]);
+
+      const INCORRECT_GUESS_MESSAGE =
+        "Oops, that's not quite right. Keep trying!";
+      const TYPO_MESSAGE = "Almost there! Check your spelling and try again.";
+
+      if (fuzzyScores) {
+        const [mostLikelyGuess] = fuzzyScores;
+        const [score, guessedWord] = mostLikelyGuess;
+
+        if (
+          guessedWord === wordContextSentence.word.trim().toLowerCase() &&
+          score >= 0.7
+        ) {
+          setErrorMessage(TYPO_MESSAGE);
+        } else {
+          setErrorMessage(INCORRECT_GUESS_MESSAGE);
+        }
+      } else {
+        setErrorMessage(INCORRECT_GUESS_MESSAGE);
+      }
+
       setShouldShowErrorMessage(true);
     } else {
       setShouldShowErrorMessage(false);
@@ -65,12 +98,16 @@ export default function WordContextSentenceChallenge({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen px-8 bg-fuchsia-100 gap-y-4">
-      <div className="flex flex-col items-center mb-16">
-        <p className="mb-1 font-bold text-violet-900">Vocabulary Words</p>
-        <ul className="text-lg text-violet-900">
+    <div className="flex flex-col items-center justify-center h-screen px-8 bg-lingualist-background gap-y-8">
+      <div className="flex flex-col items-center mb-8">
+        <h2 className="mb-2 text-xl font-bold text-lingualist-text">
+          Vocabulary Words
+        </h2>
+        <ul className="text-lg text-lingualist-text">
           {wordContextSentence?.words.map((word) => (
-            <li key={word}>{word}</li>
+            <li key={word} className="mb-1">
+              {word}
+            </li>
           ))}
         </ul>
       </div>
@@ -84,22 +121,30 @@ export default function WordContextSentenceChallenge({
             onRevealed={handleVocabularyWordRevealed}
           />
         ) : (
-          <p className="text-lg font-bold text-violet-900">
+          <p className="text-lg font-bold text-lingualist-text">
             Generating sentence...
           </p>
         )}
 
-        <div className="">
-          {shouldShowErrorMessage && (
-            <p className="text-sm font-bold text-red-500">
-              The word you provided doesn't quite fit the sentence. Try again!
+        <div className="flex flex-col items-center">
+          {shouldShowErrorMessage ? (
+            <p className="mb-2 text-sm font-bold text-red-500">
+              {errorMessage}
             </p>
+          ) : (
+            <label
+              htmlFor="vocabulary-word"
+              className="mb-2 text-sm font-bold text-lingualist-text"
+            >
+              Enter the missing vocabulary word:
+            </label>
           )}
 
           <input
-            className="w-full max-w-lg p-2 mb-4 text-center border-2 rounded-lg bg-fuchsia-50 border-rose-300 focus:outline-rose-400 text-violet-900 "
+            id="vocabulary-word"
+            className="w-full max-w-lg p-3 mb-4 text-center bg-gray-200 rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-lingualist-accent-focus"
             type="text"
-            placeholder="Vocabulary Word"
+            placeholder="Vocabulary word"
             value={submittedWord}
             onChange={(event) => {
               setSubmittedWord(event.target.value);
@@ -108,7 +153,7 @@ export default function WordContextSentenceChallenge({
           />
         </div>
         <button
-          className="px-4 py-2 font-bold rounded text-fuchsia-50 bg-sky-700 hover:bg-sky-500"
+          className="px-4 py-2 font-bold text-white rounded bg-lingualist-primary-action hover:bg-lingualist-primary-action-hover active:bg-lingualist-primary-action-active"
           onClick={handleUserSubmission}
           disabled={!wordContextSentence}
         >
@@ -117,7 +162,7 @@ export default function WordContextSentenceChallenge({
 
         <button
           onClick={handleUserGaveUp}
-          className="font-semibold cursor-pointer text-rose-900"
+          className="font-semibold cursor-pointer text-lingualist-secondary"
           disabled={!wordContextSentence}
         >
           I'm stuck

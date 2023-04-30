@@ -21,26 +21,26 @@ export default function CorrectGuess(props: CorrectGuessProps): JSX.Element {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen px-8 bg-fuchsia-100 gap-y-4">
+    <div className="flex flex-col items-center justify-center h-screen px-8 bg-lingualist-background gap-y-8">
       {props.didUserGuessWord && (
-        <h1 className="text-3xl font-bold text-violet-900">
+        <h1 className="text-3xl font-bold text-lingualist-primary">
           You Guessed Correctly!
         </h1>
       )}
-      <p className="mb-4 text-xl font-medium text-violet-900">
+      <p className="mb-4 text-xl font-medium text-lingualist-text">
         {props.definition}
       </p>
 
       <div
         onClick={onSpeakWord}
-        className="flex flex-col items-center p-3 mb-8 border-2 rounded cursor-pointer border-sky-700 hover:bg-fuchsia-200 text-violet-900"
+        className="flex flex-col items-center p-3 mb-8 border-2 rounded cursor-pointer border-lingualist-primary hover:shadow-lg text-lingualist-primary"
       >
-        <img src={hearIcon} alt="" className="mb-2 w-14" />
+        <img src={hearIcon} alt="" className="w-20 mb-2" />
         <span className="font-semibold">{props.word}</span>
       </div>
 
       <button
-        className="px-4 py-2 font-bold text-white rounded bg-sky-700 hover:bg-sky-500"
+        className="px-4 py-2 font-bold text-white rounded bg-lingualist-primary-action hover:bg-lingualist-primary-action-hover"
         onClick={props.onPlayAgain}
       >
         Play Again

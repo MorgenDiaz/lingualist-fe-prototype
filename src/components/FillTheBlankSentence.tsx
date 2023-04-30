@@ -57,7 +57,7 @@ function FillTheBlankSentence({
   ]);
 
   return (
-    <p className="text-lg font-bold text-violet-900">
+    <p className="text-lg font-bold text-center text-lingualist-primary">
       {sentenceBeforeWord} {obscuredWord} {sentenceAfterWord}
     </p>
   );
