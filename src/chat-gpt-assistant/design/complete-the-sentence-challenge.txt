@@ -1,0 +1,15 @@
+"complete the sentence screen"
+The "complete the sentence" screen consists of a sentence with a blank space for the user to fill in with the correct vocabulary word.
+The sentence is generated randomly based on a vocabulary word chosen from a list of 8 randomly selected words from the user's vocabulary list.
+The user types in their answer and can submit it for evaluation.
+If the user is correct, they are taken to the "complete the sentence challenge result" screen with a success message displayed at the top.
+If the user is incorrect, they can try again or skip the challenge.
+There is also an "I'm stuck" button which takes the user to a screen displaying the correct vocabulary word,
+its definition, and a button to hear the pronunciation of the word.
+
+"Complete the Sentence Result" Screen:
+The "Complete the Sentence Challenge Result" screen is displayed after the user has completed the "Complete the Sentence" challenge.
+It displays the result of the challenge, either a success message if the user completed the challenge successfully
+or the correct vocabulary word if the user chose to skip the challenge.
+The screen also includes the definition of the word and a button to hear the pronunciation of the word.
+The user can play the challenge again or return to the main menu.

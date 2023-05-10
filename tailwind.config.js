@@ -10,7 +10,6 @@ module.exports = {
         "lingualist-accent-focus": "#FFE082",
         "lingualist-background": "#F7F7F7",
         "lingualist-text": "#1B1B1B",
-
         "lingualist-text-accent": "#FBD38D",
         "lingualist-primary-action": "#5F249F",
         "lingualist-primary-action-hover": "#7f3ca9",
